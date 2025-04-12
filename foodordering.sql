@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 26, 2025 at 03:46 PM
+-- Generation Time: Apr 12, 2025 at 12:15 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 5.6.31
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `foodordering1`
+-- Database: `foodordering`
 --
 
 -- --------------------------------------------------------
@@ -154,17 +154,9 @@ CREATE TABLE `orders` (
   `orders_ID` int(5) NOT NULL,
   `customer_ID` int(5) DEFAULT NULL,
   `orders_Date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `orders_TotalAmount` decimal(7,2) NOT NULL,
   `orders_Status` varchar(20) NOT NULL,
-  `orders_driver` int(5) DEFAULT NULL
+  `orders_employee` int(5) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `orders`
---
-
-INSERT INTO `orders` (`orders_ID`, `customer_ID`, `orders_Date`, `orders_TotalAmount`, `orders_Status`, `orders_driver`) VALUES
-(1, 1, '2025-03-26 13:04:45', '13.00', 'Preparing', 2);
 
 -- --------------------------------------------------------
 
@@ -180,13 +172,19 @@ CREATE TABLE `orders_details` (
   `remark` text
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `orders_details`
+-- Table structure for table `payment`
 --
 
-INSERT INTO `orders_details` (`orders_details_ID`, `orders_ID`, `orders_Item`, `quantity`, `remark`) VALUES
-(1, 1, 1, 1, NULL),
-(2, 1, 1, 1, NULL);
+CREATE TABLE `payment` (
+  `payment_id` int(5) NOT NULL,
+  `orders_id` int(5) NOT NULL,
+  `payment_method` varchar(50) NOT NULL,
+  `payment_amount` decimal(7,2) NOT NULL,
+  `payment_datetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -196,10 +194,22 @@ INSERT INTO `orders_details` (`orders_details_ID`, `orders_ID`, `orders_Item`, `
 
 CREATE TABLE `rating` (
   `rate_ID` int(5) NOT NULL,
-  `customer_ID` int(5) DEFAULT NULL,
-  `menu_ID` int(5) DEFAULT NULL,
-  `rate` decimal(2,1) NOT NULL,
-  `comment` text
+  `customer_ID` int(5) NOT NULL,
+  `rating` decimal(2,1) NOT NULL,
+  `comment` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `shopping_cart`
+--
+
+CREATE TABLE `shopping_cart` (
+  `shopping_cart_ID` int(5) NOT NULL,
+  `customer_ID` int(5) NOT NULL,
+  `menu_ID` int(5) NOT NULL,
+  `quantity` int(222) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -237,7 +247,7 @@ ALTER TABLE `menu`
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`orders_ID`),
   ADD KEY `customer_ID` (`customer_ID`),
-  ADD KEY `orders_driver` (`orders_driver`);
+  ADD KEY `orders_driver` (`orders_employee`);
 
 --
 -- Indexes for table `orders_details`
@@ -248,10 +258,24 @@ ALTER TABLE `orders_details`
   ADD KEY `orders_Item` (`orders_Item`);
 
 --
+-- Indexes for table `payment`
+--
+ALTER TABLE `payment`
+  ADD PRIMARY KEY (`payment_id`),
+  ADD KEY `orders_id` (`orders_id`);
+
+--
 -- Indexes for table `rating`
 --
 ALTER TABLE `rating`
   ADD PRIMARY KEY (`rate_ID`),
+  ADD KEY `customer_ID` (`customer_ID`);
+
+--
+-- Indexes for table `shopping_cart`
+--
+ALTER TABLE `shopping_cart`
+  ADD PRIMARY KEY (`shopping_cart_ID`),
   ADD KEY `customer_ID` (`customer_ID`),
   ADD KEY `menu_ID` (`menu_ID`);
 
@@ -263,7 +287,7 @@ ALTER TABLE `rating`
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `category_ID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `category_ID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `customer`
 --
@@ -283,17 +307,27 @@ ALTER TABLE `menu`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `orders_ID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `orders_ID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `orders_details`
 --
 ALTER TABLE `orders_details`
-  MODIFY `orders_details_ID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `orders_details_ID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `payment`
+--
+ALTER TABLE `payment`
+  MODIFY `payment_id` int(5) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `rating`
 --
 ALTER TABLE `rating`
   MODIFY `rate_ID` int(5) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `shopping_cart`
+--
+ALTER TABLE `shopping_cart`
+  MODIFY `shopping_cart_ID` int(5) NOT NULL AUTO_INCREMENT;
 --
 -- Constraints for dumped tables
 --
@@ -309,7 +343,7 @@ ALTER TABLE `menu`
 --
 ALTER TABLE `orders`
   ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`customer_ID`) REFERENCES `customer` (`customer_ID`),
-  ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`orders_driver`) REFERENCES `employee` (`employee_ID`);
+  ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`orders_employee`) REFERENCES `employee` (`employee_ID`);
 
 --
 -- Constraints for table `orders_details`
@@ -319,11 +353,23 @@ ALTER TABLE `orders_details`
   ADD CONSTRAINT `orders_details_ibfk_2` FOREIGN KEY (`orders_Item`) REFERENCES `menu` (`menu_ID`);
 
 --
+-- Constraints for table `payment`
+--
+ALTER TABLE `payment`
+  ADD CONSTRAINT `payment_ibfk_1` FOREIGN KEY (`orders_id`) REFERENCES `orders` (`orders_ID`);
+
+--
 -- Constraints for table `rating`
 --
 ALTER TABLE `rating`
-  ADD CONSTRAINT `rating_ibfk_1` FOREIGN KEY (`customer_ID`) REFERENCES `customer` (`customer_ID`),
-  ADD CONSTRAINT `rating_ibfk_2` FOREIGN KEY (`menu_ID`) REFERENCES `menu` (`menu_ID`);
+  ADD CONSTRAINT `rating_ibfk_1` FOREIGN KEY (`customer_ID`) REFERENCES `customer` (`customer_ID`);
+
+--
+-- Constraints for table `shopping_cart`
+--
+ALTER TABLE `shopping_cart`
+  ADD CONSTRAINT `shopping_cart_ibfk_1` FOREIGN KEY (`customer_ID`) REFERENCES `customer` (`customer_ID`),
+  ADD CONSTRAINT `shopping_cart_ibfk_2` FOREIGN KEY (`menu_ID`) REFERENCES `menu` (`menu_ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
