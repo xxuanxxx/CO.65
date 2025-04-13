@@ -1,20 +1,18 @@
-<?php include('connection.php');?>
-
 <!DOCTYPE html>
 <html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
     <title>Cart</title>
-    <link rel="stylesheet" href="shopping_cart.css">
+    <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' rel='stylesheet'>
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet'>
+    <link href='shopping_cart.css' rel='stylesheet'>
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
 </head>
-
-<body>
-    <?include('header.php');?>
+<body className='snippet-body'>
     <div class="card">
         <div class="row">
-            <!--Item inside cart-->
             <div class="col-md-8 cart">
                 <div class="title">
                     <div class="row">
@@ -63,7 +61,6 @@
                 </div>
                 <div class="back-to-shop"><a href="#">&leftarrow;</a><span class="text-muted">Back to shop</span></div>
             </div>
-            <!--Summary Part-->
             <div class="col-md-4 summary">
                 <div><h5><b>Summary</b></h5></div>
                 <hr>
@@ -83,6 +80,8 @@
                 </div>
                 <button class="btn">CHECKOUT</button>
             </div>
-        </div>  
-    </div>
+        </div>
+            
+    </div>                        
 </body>
+</html>
