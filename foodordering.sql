@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 12, 2025 at 12:15 PM
+-- Generation Time: Apr 15, 2025 at 04:29 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 5.6.31
 
@@ -21,6 +21,22 @@ SET time_zone = "+00:00";
 --
 -- Database: `foodordering`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `address`
+--
+
+CREATE TABLE `address` (
+  `address_ID` int(5) NOT NULL,
+  `customer_ID` int(5) NOT NULL,
+  `address_Line1` varchar(222) NOT NULL,
+  `address_Line2` varchar(222) NOT NULL,
+  `address_postcode` int(5) NOT NULL,
+  `address_city` varchar(50) NOT NULL,
+  `address_state` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -53,25 +69,24 @@ CREATE TABLE `customer` (
   `customer_Name` varchar(50) NOT NULL,
   `customer_Password` varchar(20) NOT NULL,
   `customer_Email` varchar(100) NOT NULL,
-  `customer_Phone` varchar(11) NOT NULL,
-  `customer_Address` text
+  `customer_Phone` varchar(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `customer`
 --
 
-INSERT INTO `customer` (`customer_ID`, `customer_Username`, `customer_Name`, `customer_Password`, `customer_Email`, `customer_Phone`, `customer_Address`) VALUES
-(1, 'john_doe', 'John Doe', 'password123', 'johndoe@example.com', '012-3456789', '123 Main Street, Kuala Lumpur'),
-(2, 'janesmith', 'Jane Smith', 'securepass456', 'janesmith@example.com', '013-9876543', '45 Jalan Bukit, Selangor'),
-(3, 'michaeltan', 'Michael Tan', 'mikepass789', 'michaeltan@example.com', '017-2233445', '88 Taman Permai, Penang'),
-(4, 'emilywong', 'Emily Wong', 'emily1234', 'emilywong@example.com', '016-5566778', '12 Lorong Mawar, Johor Bahru'),
-(5, 'davidlee', 'David Lee', 'davidpass321', 'davidlee@example.com', '018-9988776', '7 Jalan Impian, Melaka'),
-(6, 'sophialim', 'Sophia Lim', 'sophia789', 'sophialim@example.com', '019-1122334', '99 Jalan Sentosa, Ipoh'),
-(7, 'kevinchua', 'Kevin Chua', 'kevpass555', 'kevinchua@example.com', '014-6677889', '56 Taman Megah, Seremban'),
-(8, 'oliviatan', 'Olivia Tan', 'olivsecure999', 'oliviatan@example.com', '011-3344556', '23 Jalan Harmoni, Kuching'),
-(9, 'ethangoh', 'Ethan Goh', 'ethanpass111', 'ethangoh@example.com', '010-8899001', '78 Lorong Bintang, Kota Kinabalu'),
-(10, 'rachelng', 'Rachel Ng', 'rachelpass333', 'rachelng@example.com', '015-7766554', '34 Persiaran Indah, Shah Alam');
+INSERT INTO `customer` (`customer_ID`, `customer_Username`, `customer_Name`, `customer_Password`, `customer_Email`, `customer_Phone`) VALUES
+(1, 'john_doe', 'John Doe', 'password123', 'johndoe@example.com', '012-3456789'),
+(2, 'janesmith', 'Jane Smith', 'securepass456', 'janesmith@example.com', '013-9876543'),
+(3, 'michaeltan', 'Michael Tan', 'mikepass789', 'michaeltan@example.com', '017-2233445'),
+(4, 'emilywong', 'Emily Wong', 'emily1234', 'emilywong@example.com', '016-5566778'),
+(5, 'davidlee', 'David Lee', 'davidpass321', 'davidlee@example.com', '018-9988776'),
+(6, 'sophialim', 'Sophia Lim', 'sophia789', 'sophialim@example.com', '019-1122334'),
+(7, 'kevinchua', 'Kevin Chua', 'kevpass555', 'kevinchua@example.com', '014-6677889'),
+(8, 'oliviatan', 'Olivia Tan', 'olivsecure999', 'oliviatan@example.com', '011-3344556'),
+(9, 'ethangoh', 'Ethan Goh', 'ethanpass111', 'ethangoh@example.com', '010-8899001'),
+(10, 'rachelng', 'Rachel Ng', 'rachelpass333', 'rachelng@example.com', '015-7766554');
 
 -- --------------------------------------------------------
 
@@ -217,6 +232,13 @@ CREATE TABLE `shopping_cart` (
 --
 
 --
+-- Indexes for table `address`
+--
+ALTER TABLE `address`
+  ADD PRIMARY KEY (`address_ID`),
+  ADD KEY `customer_ID` (`customer_ID`);
+
+--
 -- Indexes for table `category`
 --
 ALTER TABLE `category`
@@ -284,6 +306,11 @@ ALTER TABLE `shopping_cart`
 --
 
 --
+-- AUTO_INCREMENT for table `address`
+--
+ALTER TABLE `address`
+  MODIFY `address_ID` int(5) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
@@ -307,12 +334,12 @@ ALTER TABLE `menu`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `orders_ID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `orders_ID` int(5) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `orders_details`
 --
 ALTER TABLE `orders_details`
-  MODIFY `orders_details_ID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `orders_details_ID` int(5) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `payment`
 --
@@ -331,6 +358,12 @@ ALTER TABLE `shopping_cart`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `address`
+--
+ALTER TABLE `address`
+  ADD CONSTRAINT `address_ibfk_1` FOREIGN KEY (`customer_ID`) REFERENCES `customer` (`customer_ID`);
 
 --
 -- Constraints for table `menu`

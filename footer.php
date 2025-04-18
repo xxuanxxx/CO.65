@@ -1,19 +1,16 @@
-<footer>
-    <div class="container">
-      <p>&copy; 2025 CO.65 All rights reserved.</p>
-    </div>
-</footer>
+<div class="footer">
+    <p>Copyright 2025 &copy; CO.65</p>
+</div>
 
 <style>
-    footer 
+    .footer 
     {
-        background: #002244;
-        color: white;
+        font-family: 'Poppins', sans-serif;
+        font-weight: bold;
+        background: white;
+        color: #101010;
         text-align: center;
-        padding: 20px 0 0 0;
-        position: fixed;
-        left: 0;
+        padding: 15px;
         bottom: 0;
-        width: 100%
     }
 </style>
