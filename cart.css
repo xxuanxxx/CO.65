@@ -1,0 +1,46 @@
+body
+{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.content
+{
+    flex: 1;
+    margin: 100px auto;
+    padding: 30px;
+    width: 80%;
+    border-radius: 8px;
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.col
+{
+    padding: 0 1vh;
+}
+
+#num_of_items
+{
+    align-self: center;
+    text-align: right;
+}
+
+.details-column
+{
+    flex: 2;
+    background-color: #fff;
+}
+
+.summary
+{
+    flex: 2;
+    background-color: #ddd;
+}

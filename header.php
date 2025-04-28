@@ -11,7 +11,7 @@
 <body>
     <header class="main-header">
         <div class="nav-left">
-            <img src="logo2.png" alt="CO.65">
+            <img src="image/logo2.png" alt="CO.65">
         </div>
 
         <div class="nav-center">

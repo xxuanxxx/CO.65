@@ -12,7 +12,8 @@
 </head>
 
 <body>
-    <!--Header will put here-->
+    <!--Header-->
+    <?php include('header.php');?>
     <div class="card">
         <div class="row">
             <div class="col-md-8 cart">

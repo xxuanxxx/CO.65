@@ -7,9 +7,11 @@ $password = ""; //password
 $dbname = "foodordering";  //database
 
 // Create connection
-$db = mysqli_connect($servername, $username, $password, $dbname); // connecting 
+$conn = mysqli_connect($servername, $username, $password, $dbname); // connecting 
 // Check connection
-if (!$db) {       //checking connection to DB	
+if (!$conn) 
+{       
+    //checking connection to DB	
     die("Connection failed: " . mysqli_connect_error());
 }
 
